@@ -294,15 +294,36 @@ ol {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #590069f5;
+  /* background-color: #590069f5; */
+  background-image: url('/game-transition-popup.jpg');
+  background-size: cover;
+  border-radius: 10px;
   animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.65, 0.52) forwards;
 }
 
 #game-over h2 {
   font-size: 3rem;
   text-align: center;
-  color: #01a9f4;
+  color: white;
   margin: 0;
+  animation: flicker 1.5s infinite alternate; /* Name, duration, repetition, direction */
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #8f30a0,
+      0 0 80px #8f30a0,
+      0 0 90px #8f30a0,
+      0 0 100px #8f30a0,
+      0 0 150px #8f30a0;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
 }
 
 #game-over p {
@@ -313,43 +334,23 @@ ol {
 
 #game-over button {
   display: block;
-  margin: 0 auto;
+  margin: 20px auto;
   font-size: 1.2rem;
   background: none;
-  border: 2px solid #01a9f4;
-  color: #01a9f4;
+  border: 2px solid #8f30a0;
+  color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s, color 0.2s;
-  box-shadow: 0 0 8px #01a9f4e6;
+  box-shadow: 0 0 8px #8f30a0;
 }
 
 #game-over button:hover {
-  background: #01a9f4;
-  color: #4d3ba2;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #01a9f4;
-}
-
-#log {
-  max-width: 20rem;
-  color: #4d3ba2;
-  list-style: none;
-  margin: 2rem auto;
-  padding: 0;
-  text-align: center;
-}
-
-#log li {
-  border-radius: 4px;
-  animation: slide-in-from-left 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
-  margin: 0.75rem;
-}
-
-#log li.highlighted {
-  background-color: #4d3ba2;
+  background: #8f30a0;
   color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #8f30a0;
 }
 
 #game-hints {

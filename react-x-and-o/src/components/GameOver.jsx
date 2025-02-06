@@ -15,7 +15,7 @@ export default function GameOver({ gameState, onPlayAgain }) {
   return (
     <div id="game-over">
       <h2>{message}</h2>
-      <button onClick={onPlayAgain}>Rematch NOW!!</button>
+      <button onClick={onPlayAgain}>Play Again</button>
     </div>
   );
 }

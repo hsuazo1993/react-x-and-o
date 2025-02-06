@@ -9,7 +9,8 @@ import AudioPlayer from "./components/AudioPlayer";
 import gameLocalSong from "/game-song-1.mp3";
 import gameAISong from "/game-song-ai.mp3";
 import gameOnlineSong from "/game-song-online.mp3";
-import { playSoundEffect } from './audio-utils';
+import { playSoundEffect } from "./audio-utils";
+import TransitionOverlay from "./components/TransitionOverlay";
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
@@ -19,6 +20,7 @@ function App() {
   const [selectedMode, setSelectedMode] = useState("AI");
   const [gameStarted, setGameStarted] = useState(false);
   const [gameSong, setGameSong] = useState(gameAISong);
+  const [transitionActive, setTransitionActive] = useState(false);
 
   GameLogic.setGameData();
 
@@ -34,7 +36,7 @@ function App() {
         GameLogic.getPlayerInfo(activePlayer).name
       } moved to ${rowIndex},${colIndex}`
     );
-    playSoundEffect('move', 0.5);
+    playSoundEffect("move", 0.5);
   }
 
   useEffect(() => {
@@ -58,13 +60,13 @@ function App() {
       console.table(gameBoard);
 
       if (state === "X") {
-        GameLogic.addPlayerWin(state);  
-        playSoundEffect('win', 1);
+        GameLogic.addPlayerWin(state);
+        playSoundEffect("win", 1);
       } else if (state === "0") {
-        GameLogic.addPlayerWin(state);  
-        playSoundEffect('defeat', 1);
+        GameLogic.addPlayerWin(state);
+        playSoundEffect("defeat", 1);
       } else {
-        playSoundEffect('draw', 1);
+        playSoundEffect("draw", 1);
       }
     }
   };
@@ -94,16 +96,22 @@ function App() {
   }
 
   const handleModeSelect = (mode) => {
+    setTransitionActive(true);
     setSelectedMode(mode);
     setGameSong(getThemeSong(mode));
-    playSoundEffect('start', 1);
-    setGameStarted(true);
-    resetGame(true);
+    playSoundEffect("start", 0.5);
+
+    setTimeout(() => {
+      setGameStarted(true);
+      resetGame(true);
+      setTransitionActive(false); // Deactivate transition after delay
+    }, 2500);
   };
 
   return (
     <main>
-      <AudioPlayer src={gameSong} volume={0.1} play={gameStarted} delay={4} />
+      <TransitionOverlay active={transitionActive} mode={selectedMode} />
+      <AudioPlayer src={gameSong} volume={0.2} play={gameStarted} delay={2.5} />
       <GameModeSelector
         selectedMode={selectedMode}
         onSelectMode={handleModeSelect}
