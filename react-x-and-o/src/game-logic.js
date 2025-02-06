@@ -20,7 +20,7 @@ class GameLogic {
           wins: 0,
         },
         0: {
-          name: "Player 2",
+          name: "Playmaker",
           symbol: "O",
           wins: 0,
         },
@@ -79,8 +79,6 @@ class GameLogic {
     let gameData = JSON.parse(localStorage.getItem(GAME_DATA_KEY));
     gameData.currentGameBoard = gameBoard;
     localStorage.setItem(GAME_DATA_KEY, JSON.stringify(gameData));
-
-    console.table(gameBoard);
   }
 
   static checkGameState(gameBoard, activePlayerSymbol) {
@@ -102,8 +100,13 @@ class GameLogic {
     return null;
   }
 
-  static resetGame() {
+  static resetGame(gameModeChanged = false) {
     let gameData = JSON.parse(localStorage.getItem(GAME_DATA_KEY));
+    if (gameModeChanged) {
+      gameData.players["X"].wins = 0;
+      gameData.players["0"].wins = 0;
+    }
+
     gameData.currentGameBoard = [];
     gameData.logs = [];
     gameData.logs.push({

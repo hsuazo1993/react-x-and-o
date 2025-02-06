@@ -466,3 +466,27 @@ ol {
     flex-flow: column;
   }
 }
+
+#game-mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem; /* Space between selector and players */
+}
+
+#game-mode-selector button {
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+#game-mode-selector button.active,
+#game-mode-selector button:hover {
+  background-color: #01a9f4; /* Your accent color */
+  color: #fff; /* White text */
+}

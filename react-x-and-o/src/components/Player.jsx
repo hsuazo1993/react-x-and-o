@@ -1,7 +1,13 @@
 import { useState } from "react";
 import GameLogic from "../game-logic";
 
-export default function Player({ initialName, symbol, isActive, score }) {
+export default function Player({
+  initialName,
+  symbol,
+  isActive,
+  score,
+  gameMode,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(initialName);
 
@@ -15,9 +21,12 @@ export default function Player({ initialName, symbol, isActive, score }) {
   }
 
   let playerName = <span className="player-name">{name}</span>;
-  let actionButton = (
-    <button onClick={() => setIsEditing((editing) => !editing)}>Edit</button>
-  );
+  let actionButton =
+    symbol === "0" && gameMode === "AI" ? (
+      <></>
+    ) : (
+      <button onClick={() => setIsEditing((editing) => !editing)}>Edit</button>
+    );
 
   if (isEditing) {
     playerName = (
@@ -34,9 +43,8 @@ export default function Player({ initialName, symbol, isActive, score }) {
   return (
     <li className={isActive ? "active" : undefined}>
       <span className="player-symbol">{symbol}</span>
-      {/* Wrap name and button in a div */}
-        {playerName}
-        <span className="player-score">{score}</span> {/* Display the score */}
+      {playerName}
+      <span className="player-score">{score}</span> {/* Display the score */}
       {actionButton}
     </li>
   );
