@@ -10,12 +10,12 @@ export default function GameOver({ gameState, onPlayAgain }) {
   const message =
     gameState === "draw"
       ? "It's a draw!"
-      : `Player ${playerInfo.name} wins!`;
+      : `${playerInfo.name} wins!`;
 
   return (
     <div id="game-over">
       <h2>{message}</h2>
-      <button onClick={onPlayAgain}>Play Again!!</button>
+      <button onClick={onPlayAgain}>Rematch NOW!!</button>
     </div>
   );
 }

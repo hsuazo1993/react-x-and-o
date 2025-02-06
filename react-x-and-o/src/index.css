@@ -278,6 +278,12 @@ ol {
   padding: 0.5rem;
 }
 
+#game-board button:hover {
+  transform: scale(1.1);        /* Scale up slightly */
+  background-color: #29b6f6; /* Lighter blue on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
 #game-over {
   position: absolute;
   top: 0;

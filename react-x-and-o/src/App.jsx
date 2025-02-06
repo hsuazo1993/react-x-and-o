@@ -5,6 +5,11 @@ import GameBoard from "./components/GameBoard";
 import GameLogic from "./game-logic";
 import GameOver from "./components/GameOver";
 import GameModeSelector from "./components/GameModeSelector";
+import AudioPlayer from "./components/AudioPlayer";
+import gameLocalSong from "/game-song-1.mp3";
+import gameAISong from "/game-song-ai.mp3";
+import gameOnlineSong from "/game-song-online.mp3";
+import { playSoundEffect } from './audio-utils';
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
@@ -12,6 +17,8 @@ function App() {
   const [result, setResult] = useState(null);
   const [gameBoard, setGameBoard] = useState(GameLogic.getInitialGameBoard());
   const [selectedMode, setSelectedMode] = useState("AI");
+  const [gameStarted, setGameStarted] = useState(false);
+  const [gameSong, setGameSong] = useState(gameAISong);
 
   GameLogic.setGameData();
 
@@ -27,6 +34,7 @@ function App() {
         GameLogic.getPlayerInfo(activePlayer).name
       } moved to ${rowIndex},${colIndex}`
     );
+    playSoundEffect('move', 0.5);
   }
 
   useEffect(() => {
@@ -49,7 +57,15 @@ function App() {
 
       console.table(gameBoard);
 
-      (state === "X" || state === "0") && GameLogic.addPlayerWin(state);
+      if (state === "X") {
+        GameLogic.addPlayerWin(state);  
+        playSoundEffect('win', 1);
+      } else if (state === "0") {
+        GameLogic.addPlayerWin(state);  
+        playSoundEffect('defeat', 1);
+      } else {
+        playSoundEffect('draw', 1);
+      }
     }
   };
 
@@ -64,20 +80,36 @@ function App() {
     resetGame();
   }
 
+  function getThemeSong(mode) {
+    switch (mode) {
+      case "AI":
+        return gameAISong;
+      case "Local":
+        return gameLocalSong;
+      case "Online":
+        return gameOnlineSong;
+      default:
+        return gameAISong;
+    }
+  }
+
   const handleModeSelect = (mode) => {
     setSelectedMode(mode);
+    setGameSong(getThemeSong(mode));
+    playSoundEffect('start', 1);
+    setGameStarted(true);
     resetGame(true);
   };
 
   return (
     <main>
+      <AudioPlayer src={gameSong} volume={0.1} play={gameStarted} delay={4} />
       <GameModeSelector
         selectedMode={selectedMode}
         onSelectMode={handleModeSelect}
       />
       <div id="players-container">
         {" "}
-        {/* New container for players */}
         <ol id="players" className="highlight-player">
           <Player
             initialName={GameLogic.getPlayerInfo("X").name}
