@@ -31,7 +31,7 @@ This project implements the classic Tic-Tac-Toe game using the React JavaScript 
 
 ## Installation
 
-1.  Clone the repository: `git clone https://github.com/[your-username]/react-x-and-o.git`
+1.  Clone the repository: `git clone https://github.com/hsuazo1993/react-x-and-o.git`
 2.  Navigate to the project directory: `cd react-x-and-o`
 3.  Install the dependencies: `npm install` or `yarn install`
 
