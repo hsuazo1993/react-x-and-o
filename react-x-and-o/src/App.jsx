@@ -13,6 +13,7 @@ import { playSoundEffect, playRandomPlaymakerPhrase } from "./audio-utils";
 import TransitionOverlay from "./components/TransitionOverlay";
 import { performAITurn } from "./ai-logic";
 import ModeSelectionPrompt from "./components/ModeSelectionPrompt";
+import SupportLinks from "./components/SupportLinks"; 
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
@@ -166,6 +167,7 @@ function App() {
           </div>
         </>
       )}
+      <SupportLinks />
     </main>
   );
 }

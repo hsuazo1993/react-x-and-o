@@ -1,4 +1,5 @@
 import React from "react";
+import "./GameModeSelector.css";
 
 function GameModeSelector({ onSelectMode, selectedMode }) {
   return (

@@ -92,3 +92,18 @@
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   }
 }
+
+@media screen and (max-width: 768px) {
+  #game-over h2 {
+    font-size: 2rem;
+  }
+
+  #game-over p {
+    font-size: 1.2rem;
+  }
+
+  #game-over button {
+    font-size: 1rem;
+  }
+  
+}

@@ -1,7 +1,7 @@
 #mode-selection-prompt {
   width: 95%;
   max-width: 40rem;
-  margin: 8rem auto;
+  margin: 5rem auto 8rem auto;
   padding: 1rem;
   border-radius: 6px;
   background: linear-gradient(#2d2438, #1e1728);
@@ -21,7 +21,7 @@
 }
 
 #mode-selection-prompt img {
-  max-width: 80%;
+  max-width: 65%;
   height: auto;
   margin-top: 1rem;
 }
@@ -29,5 +29,19 @@
 @media screen and (max-width: 768px) {
   #mode-selection-prompt {
     margin: 4rem auto;
+  }
+
+  #mode-selection-prompt img {
+    max-width: 50%;
+    height: auto;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #mode-selection-prompt img {
+    max-width: 75%;
+    height: auto;
+    margin-top: 1rem;
   }
 }
