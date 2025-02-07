@@ -14,6 +14,7 @@ const soundEffects = {
 
 const playmakerAudioFiles = {};
 const playmakerAudioFilesCount = 53;
+let currentlyPlayingPlaymakerAudio = null; // Keep track of the currently playing audio
 
 export async function preloadAudio() {
   for (let i = 1; i <= playmakerAudioFilesCount; i++) {
@@ -28,10 +29,22 @@ export async function preloadAudio() {
     audio.addEventListener("error", (error) => {
       console.error(`Error preloading audio ${i}:`, error);
     });
+
+    //Crucially, add an event listener for 'ended'
+    audio.addEventListener("ended", () => {
+      if (currentlyPlayingPlaymakerAudio === audio) {
+        currentlyPlayingPlaymakerAudio = null;
+      }
+    });
   }
 }
 
 export const playRandomPlaymakerPhrase = async (volume = 1.0) => {
+  // Check if an audio is currently playing.  If so, return early.
+  if (currentlyPlayingPlaymakerAudio && !currentlyPlayingPlaymakerAudio.ended) {
+    return;
+  }
+
   const min = 1;
   const max = playmakerAudioFilesCount;
   const id = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,8 +57,15 @@ export const playRandomPlaymakerPhrase = async (volume = 1.0) => {
   }
 
   audioFile.volume = volume;
-  audioFile.play();
+  currentlyPlayingPlaymakerAudio = audioFile; // Set the currently playing audio
+
+  audioFile.play().catch(error => {
+      console.error("Error playing playmaker phrase:", error);
+      currentlyPlayingPlaymakerAudio = null; // Reset if there is an error
+  });
 };
+
+
 
 export const playSoundEffect = (name, volume = 1.0) => {
   const audio = soundEffects[name];

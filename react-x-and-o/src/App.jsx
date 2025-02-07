@@ -67,7 +67,7 @@ function App() {
       gameStarted
     ) {
       performAITurn(gameBoard, activePlayer, handlePlayerMove);
-      playRandomPlaymakerPhrase(0.5);
+      playRandomPlaymakerPhrase(0.6);
     }
   }, [activePlayer, gameBoard, selectedMode, isValidGameResult, gameStarted]);
 
@@ -79,13 +79,13 @@ function App() {
       console.table(gameBoard);
       if (state === "X") {
         GameLogic.addPlayerWin(state);
-        playSoundEffect("win", 1);
+        playSoundEffect("win", 0.6);
       } else if (state === "0") {
         GameLogic.addPlayerWin(state);
-        playSoundEffect("defeat", 1);
+        playSoundEffect("defeat", 0.6);
       } else {
         console.log("It's a draw!");
-        playSoundEffect("draw", 1);
+        playSoundEffect("draw", 0.6);
       }
     }
   };
