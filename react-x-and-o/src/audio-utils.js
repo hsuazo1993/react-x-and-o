@@ -3,14 +3,6 @@ import winSound from "/game-effect-victory.mp3";
 import defeatSound from "/game-effect-defeat.mp3";
 import drawSound from "/game-effect-draw.mp3";
 import moveSound from "/game-effect-move.mp3";
-import playmakerPhrase1 from "/game-playmaker-1.mp3";
-import playmakerPhrase2 from "/game-playmaker-2.mp3";
-import playmakerPhrase3 from "/game-playmaker-3.mp3";
-import playmakerPhrase4 from "/game-playmaker-4.mp3";
-import playmakerPhrase5 from "/game-playmaker-5.mp3";
-import playmakerPhrase6 from "/game-playmaker-6.mp3";
-import playmakerPhrase7 from "/game-playmaker-7.mp3";
-import playmakerPhrase8 from "/game-playmaker-8.mp3";
 
 const soundEffects = {
   start: new Audio(startSound),
@@ -18,22 +10,40 @@ const soundEffects = {
   defeat: new Audio(defeatSound),
   draw: new Audio(drawSound),
   move: new Audio(moveSound),
-  playmakerPhrase1: new Audio(playmakerPhrase1),
-  playmakerPhrase2: new Audio(playmakerPhrase2),
-  playmakerPhrase3: new Audio(playmakerPhrase3),
-  playmakerPhrase4: new Audio(playmakerPhrase4),
-  playmakerPhrase5: new Audio(playmakerPhrase5),
-  playmakerPhrase6: new Audio(playmakerPhrase6),
-  playmakerPhrase7: new Audio(playmakerPhrase7),
-  playmakerPhrase8: new Audio(playmakerPhrase8),
 };
 
-export const playRandomPlaymakerPhrase = (volume = 1.0) => {
-  const min = 1;
-  const max = 8;
-  const id = Math.floor(Math.random() * (max - min + 1)) + min;
+const playmakerAudioFiles = {};
 
-  playSoundEffect(`playmakerPhrase${id}`, volume);
+export async function preloadAudio() {
+  for (let i = 1; i <= 51; i++) {
+    const audio = new Audio(`/game-playmaker-${i}.mp3`);
+    audio.preload = "auto";
+    playmakerAudioFiles[`playmakerPhrase${i}`] = audio;
+
+    audio.addEventListener("loadeddata", () => {
+      // console.log(`Audio ${i} preloaded`);
+    });
+
+    audio.addEventListener("error", (error) => {
+      console.error(`Error preloading audio ${i}:`, error);
+    });
+  }
+}
+
+export const playRandomPlaymakerPhrase = async (volume = 1.0) => {
+  const min = 1;
+  const max = 51;
+  const id = Math.floor(Math.random() * (max - min + 1)) + min;
+  const phraseName = `playmakerPhrase${id}`;
+  const audioFile = playmakerAudioFiles[phraseName];
+
+  if (!audioFile) {
+    console.error(`Audio file for ID ${id} not found or not preloaded.`);
+    return;
+  }
+
+  audioFile.volume = volume;
+  audioFile.play();
 };
 
 export const playSoundEffect = (name, volume = 1.0) => {
