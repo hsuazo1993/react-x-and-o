@@ -11,6 +11,7 @@ import gameAISong from "/game-song-ai.mp3";
 import gameOnlineSong from "/game-song-online.mp3";
 import { playSoundEffect } from "./audio-utils";
 import TransitionOverlay from "./components/TransitionOverlay";
+import { performAITurn } from "./ai-logic";
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
@@ -24,40 +25,56 @@ function App() {
 
   GameLogic.setGameData();
 
-  function handlePlayerMove(rowIndex, colIndex) {
+  function handlePlayerMove(rowIndex, colIndex, isAIMove = false) {
     setGameBoard((prevGameBoard) => {
       const updatedGameBoard = [...prevGameBoard];
+      // Check if the cell is already occupied
+      if (updatedGameBoard[rowIndex][colIndex] !== null) {
+        return prevGameBoard; // Return the previous board state without changes
+      }
       updatedGameBoard[rowIndex][colIndex] = activePlayer;
       return updatedGameBoard;
     });
 
+    // Switch player *after* the board update, but *before* checking for game result
+    setActivePlayer((currentActivePlayer) => (currentActivePlayer === "X" ? "0" : "X"));
+
     GameLogic.registerLog(
-      `${
-        GameLogic.getPlayerInfo(activePlayer).name
+      `${GameLogic.getPlayerInfo(activePlayer).name
       } moved to ${rowIndex},${colIndex}`
     );
-    playSoundEffect("move", 0.5);
+
+    if (!isAIMove) {
+      playSoundEffect("move", 0.5);
+    }
   }
 
   useEffect(() => {
+    // This useEffect is ONLY for checking the game result
     if (gameBoard.flat().some((cell) => cell !== null)) {
-      const currentGameState = GameLogic.checkGameState(
-        gameBoard,
-        activePlayer
-      );
-      handleGameResult(currentGameState);
-      setActivePlayer((currentActivePlayer) =>
-        currentActivePlayer === "X" ? "0" : "X"
-      );
+       const lastPlayed = activePlayer === "X" ? "0" : "X"; // Get *previous* player
+        const currentGameState = GameLogic.checkGameState(gameBoard, lastPlayed);
+        handleGameResult(currentGameState);
     }
-  }, [gameBoard]);
+  }, [gameBoard, activePlayer]); // Depend on BOTH gameBoard AND activePlayer
+
+
+  useEffect(() => {
+    // This useEffect is ONLY for handling the AI's turn
+    if (
+      selectedMode === "AI" &&
+      activePlayer === "0" &&
+      !isValidGameResult &&
+      gameStarted
+    ) {
+      performAITurn(gameBoard, activePlayer, handlePlayerMove);
+    }
+  }, [activePlayer, gameBoard, selectedMode, isValidGameResult, gameStarted]);
 
   const handleGameResult = (state) => {
     if (state) {
       setIsValidGameResult(true);
       setResult(state);
-
-      console.table(gameBoard);
 
       if (state === "X") {
         GameLogic.addPlayerWin(state);
@@ -104,7 +121,7 @@ function App() {
     setTimeout(() => {
       setGameStarted(true);
       resetGame(true);
-      setTransitionActive(false); // Deactivate transition after delay
+      setTransitionActive(false);
     }, 2500);
   };
 
@@ -117,7 +134,6 @@ function App() {
         onSelectMode={handleModeSelect}
       />
       <div id="players-container">
-        {" "}
         <ol id="players" className="highlight-player">
           <Player
             initialName={GameLogic.getPlayerInfo("X").name}
