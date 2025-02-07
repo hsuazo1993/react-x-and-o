@@ -1,0 +1,34 @@
+/* src/components/ModeSelectionPrompt.css */
+#mode-selection-prompt {
+  width: 95%;       /* Match game-container width */
+  max-width: 40rem; /* Match game-container max-width */
+  margin: 8rem auto; /* Match game-container margins */
+  padding: 1rem;    /* Match game-container padding */
+  border-radius: 6px;
+  background: linear-gradient(#2d2438, #1e1728); /* Match game-container background */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);      /* Match game-container shadow */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 350px; /* Set a fixed height, adjust as needed */
+
+}
+
+#mode-selection-prompt h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1rem; /* Space between heading and buttons */
+}
+
+#mode-selection-prompt img {
+  max-width: 80%; /* Make image responsive, adjust as needed */
+  height: auto;     /* Maintain aspect ratio */
+  margin-top: 1rem; /* Space between buttons and image */
+}
+
+@media screen and (max-width: 768px) {
+  #mode-selection-prompt {
+    margin: 4rem auto;
+  }
+}

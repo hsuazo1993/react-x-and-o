@@ -1,5 +1,5 @@
-import { WINNING_COMBINATIONS } from "./winning-combinations"; // Import winning combinations
-import { playSoundEffect } from "./audio-utils"; // Import for sound effects
+import { WINNING_COMBINATIONS } from "./winning-combinations";
+import { playSoundEffect } from "./audio-utils";
 
 // Helper function to check if a player has won
 function checkWinner(board, player) {

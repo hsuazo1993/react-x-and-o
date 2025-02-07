@@ -1,4 +1,5 @@
 import GameLogic from "../game-logic";
+import './GameOver.css'; 
 
 export default function GameOver({ gameState, onPlayAgain }) {
   if (gameState === null) {

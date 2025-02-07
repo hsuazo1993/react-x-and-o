@@ -12,13 +12,14 @@ import gameOnlineSong from "/game-song-online.mp3";
 import { playSoundEffect } from "./audio-utils";
 import TransitionOverlay from "./components/TransitionOverlay";
 import { performAITurn } from "./ai-logic";
+import ModeSelectionPrompt from "./components/ModeSelectionPrompt";
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
   const [isValidGameResult, setIsValidGameResult] = useState(false);
   const [result, setResult] = useState(null);
   const [gameBoard, setGameBoard] = useState(GameLogic.getInitialGameBoard());
-  const [selectedMode, setSelectedMode] = useState("AI");
+  const [selectedMode, setSelectedMode] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameSong, setGameSong] = useState(gameAISong);
   const [transitionActive, setTransitionActive] = useState(false);
@@ -37,10 +38,13 @@ function App() {
     });
 
     // Switch player *after* the board update, but *before* checking for game result
-    setActivePlayer((currentActivePlayer) => (currentActivePlayer === "X" ? "0" : "X"));
+    setActivePlayer((currentActivePlayer) =>
+      currentActivePlayer === "X" ? "0" : "X"
+    );
 
     GameLogic.registerLog(
-      `${GameLogic.getPlayerInfo(activePlayer).name
+      `${
+        GameLogic.getPlayerInfo(activePlayer).name
       } moved to ${rowIndex},${colIndex}`
     );
 
@@ -52,12 +56,11 @@ function App() {
   useEffect(() => {
     // This useEffect is ONLY for checking the game result
     if (gameBoard.flat().some((cell) => cell !== null)) {
-       const lastPlayed = activePlayer === "X" ? "0" : "X"; // Get *previous* player
-        const currentGameState = GameLogic.checkGameState(gameBoard, lastPlayed);
-        handleGameResult(currentGameState);
+      const lastPlayed = activePlayer === "X" ? "0" : "X"; // Get *previous* player
+      const currentGameState = GameLogic.checkGameState(gameBoard, lastPlayed);
+      handleGameResult(currentGameState);
     }
   }, [gameBoard, activePlayer]); // Depend on BOTH gameBoard AND activePlayer
-
 
   useEffect(() => {
     // This useEffect is ONLY for handling the AI's turn
@@ -76,6 +79,7 @@ function App() {
       setIsValidGameResult(true);
       setResult(state);
 
+      console.table(gameBoard);
       if (state === "X") {
         GameLogic.addPlayerWin(state);
         playSoundEffect("win", 1);
@@ -83,6 +87,7 @@ function App() {
         GameLogic.addPlayerWin(state);
         playSoundEffect("defeat", 1);
       } else {
+        console.log("It's a draw!");
         playSoundEffect("draw", 1);
       }
     }
@@ -133,30 +138,37 @@ function App() {
         selectedMode={selectedMode}
         onSelectMode={handleModeSelect}
       />
-      <div id="players-container">
-        <ol id="players" className="highlight-player">
-          <Player
-            initialName={GameLogic.getPlayerInfo("X").name}
-            score={GameLogic.getPlayerInfo("X").wins}
-            symbol="X"
-            gameMode={selectedMode}
-            isActive={activePlayer === "X"}
-          />
-          <Player
-            initialName={GameLogic.getPlayerInfo("0").name}
-            score={GameLogic.getPlayerInfo("0").wins}
-            symbol="0"
-            gameMode={selectedMode}
-            isActive={activePlayer === "0"}
-          />
-        </ol>
-      </div>
-      <div id="game-container">
-        {isValidGameResult && (
-          <GameOver gameState={result} onPlayAgain={handleNewMatch} />
-        )}
-        <GameBoard onPlayerMove={handlePlayerMove} gameBoard={gameBoard} />
-      </div>
+
+      {!gameStarted ? (
+        <ModeSelectionPrompt />
+      ) : (
+        <>
+          <div id="players-container">
+            <ol id="players" className="highlight-player">
+              <Player
+                initialName={GameLogic.getPlayerInfo("X").name}
+                score={GameLogic.getPlayerInfo("X").wins}
+                symbol="X"
+                gameMode={selectedMode}
+                isActive={activePlayer === "X"}
+              />
+              <Player
+                initialName={GameLogic.getPlayerInfo("0").name}
+                score={GameLogic.getPlayerInfo("0").wins}
+                symbol="0"
+                gameMode={selectedMode}
+                isActive={activePlayer === "0"}
+              />
+            </ol>
+          </div>
+          <div id="game-container">
+            {isValidGameResult && (
+              <GameOver gameState={result} onPlayAgain={handleNewMatch} />
+            )}
+            <GameBoard onPlayerMove={handlePlayerMove} gameBoard={gameBoard} />
+          </div>
+        </>
+      )}
     </main>
   );
 }
