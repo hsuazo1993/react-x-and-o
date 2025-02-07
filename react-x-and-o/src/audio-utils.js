@@ -13,9 +13,10 @@ const soundEffects = {
 };
 
 const playmakerAudioFiles = {};
+const playmakerAudioFilesCount = 53;
 
 export async function preloadAudio() {
-  for (let i = 1; i <= 51; i++) {
+  for (let i = 1; i <= playmakerAudioFilesCount; i++) {
     const audio = new Audio(`/game-playmaker-${i}.mp3`);
     audio.preload = "auto";
     playmakerAudioFiles[`playmakerPhrase${i}`] = audio;
@@ -32,7 +33,7 @@ export async function preloadAudio() {
 
 export const playRandomPlaymakerPhrase = async (volume = 1.0) => {
   const min = 1;
-  const max = 51;
+  const max = playmakerAudioFilesCount;
   const id = Math.floor(Math.random() * (max - min + 1)) + min;
   const phraseName = `playmakerPhrase${id}`;
   const audioFile = playmakerAudioFiles[phraseName];
