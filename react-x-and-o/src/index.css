@@ -275,7 +275,6 @@ ol {
 }
 
 #game-board button:hover {
-  transform: scale(1.1);
   background-color: #29b6f6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
