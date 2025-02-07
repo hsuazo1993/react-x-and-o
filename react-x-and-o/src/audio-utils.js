@@ -13,7 +13,7 @@ const soundEffects = {
 };
 
 const playmakerAudioFiles = {};
-const playmakerAudioFilesCount = 53;
+const playmakerAudioFilesCount = 55;
 let currentlyPlayingPlaymakerAudio = null; // Keep track of the currently playing audio
 
 export async function preloadAudio() {

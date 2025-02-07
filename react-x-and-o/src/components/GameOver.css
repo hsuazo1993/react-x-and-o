@@ -11,7 +11,8 @@
   background-image: url('/game-transition-popup.jpg');
   background-size: cover;
   border-radius: 10px;
-  animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.65, 0.52) forwards;
+  animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.65, 0.52) forwards, shimmer 3s infinite;
+  overflow: hidden;
 }
 
 #game-over h2 {
@@ -20,6 +21,7 @@
   color: white;
   margin: 0;
   animation: flicker 1.5s infinite alternate;
+  z-index: 2;
 }
 
 @keyframes flicker {
@@ -67,6 +69,7 @@
   cursor: pointer;
   transition: all 0.2s, color 0.2s;
   box-shadow: 0 0 8px #8f30a0;
+  z-index: 2;
 }
 
 #game-over button:hover {
@@ -74,4 +77,18 @@
   color: white;
   transform: scale(1.1);
   box-shadow: 0 0 20px #8f30a0;
+}
+
+@keyframes shimmer {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.2);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
 }
