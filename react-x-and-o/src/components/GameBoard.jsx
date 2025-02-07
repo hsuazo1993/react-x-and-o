@@ -1,11 +1,6 @@
-import React from 'react'; // Import React (it's good practice even if not directly used)
-import GameLogic from "../game-logic";
+import React from "react";
 
-export default function GameBoard({
-  onPlayerMove,
-  gameBoard,
-}) {
-
+export default function GameBoard({ onPlayerMove, gameBoard }) {
   function handleCellClick(rowIndex, colIndex) {
     if (gameBoard[rowIndex][colIndex] === null) {
       onPlayerMove(rowIndex, colIndex);

@@ -29,15 +29,13 @@ function App() {
   function handlePlayerMove(rowIndex, colIndex, isAIMove = false) {
     setGameBoard((prevGameBoard) => {
       const updatedGameBoard = [...prevGameBoard];
-      // Check if the cell is already occupied
       if (updatedGameBoard[rowIndex][colIndex] !== null) {
-        return prevGameBoard; // Return the previous board state without changes
+        return prevGameBoard;
       }
       updatedGameBoard[rowIndex][colIndex] = activePlayer;
       return updatedGameBoard;
     });
 
-    // Switch player *after* the board update, but *before* checking for game result
     setActivePlayer((currentActivePlayer) =>
       currentActivePlayer === "X" ? "0" : "X"
     );
@@ -54,13 +52,12 @@ function App() {
   }
 
   useEffect(() => {
-    // This useEffect is ONLY for checking the game result
     if (gameBoard.flat().some((cell) => cell !== null)) {
-      const lastPlayed = activePlayer === "X" ? "0" : "X"; // Get *previous* player
+      const lastPlayed = activePlayer === "X" ? "0" : "X";
       const currentGameState = GameLogic.checkGameState(gameBoard, lastPlayed);
       handleGameResult(currentGameState);
     }
-  }, [gameBoard, activePlayer]); // Depend on BOTH gameBoard AND activePlayer
+  }, [gameBoard, activePlayer]);
 
   useEffect(() => {
     if (

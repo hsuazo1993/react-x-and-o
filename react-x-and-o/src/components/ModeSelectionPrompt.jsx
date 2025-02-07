@@ -1,6 +1,6 @@
-import React from 'react';
-import './ModeSelectionPrompt.css';
-import gameImage from '/game-transition-popup.jpg';
+import React from "react";
+import "./ModeSelectionPrompt.css";
+import gameImage from "/game-transition-popup.jpg";
 
 function ModeSelectionPrompt() {
   return (

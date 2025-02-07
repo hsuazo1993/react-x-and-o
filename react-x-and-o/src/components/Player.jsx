@@ -44,7 +44,7 @@ export default function Player({
     <li className={isActive ? "active" : undefined}>
       <span className="player-symbol">{symbol}</span>
       {playerName}
-      <span className="player-score">{score}</span> {/* Display the score */}
+      <span className="player-score">{score}</span>
       {actionButton}
     </li>
   );

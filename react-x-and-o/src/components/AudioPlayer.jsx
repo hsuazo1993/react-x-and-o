@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-function AudioPlayer({ src, volume = 0.5, play, delay = 0 }) { // Add 'delay' prop
+function AudioPlayer({ src, volume = 0.5, play, delay = 0 }) {
   const audioRef = useRef(null);
-  const timeoutRef = useRef(null); // Ref to store the timeout ID
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     audioRef.current = new Audio(src);
@@ -10,39 +10,39 @@ function AudioPlayer({ src, volume = 0.5, play, delay = 0 }) { // Add 'delay' pr
     audioRef.current.volume = volume;
 
     const playAudio = () => {
-        // Clear any existing timeout
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
       timeoutRef.current = setTimeout(() => {
-        audioRef.current.play()
+        audioRef.current
+          .play()
           .then(() => {
-            // setIsPlaying(true);  // Optional state tracking
+            // setIsPlaying(true);
           })
-          .catch(error => {
+          .catch((error) => {
             console.error("Autoplay was prevented:", error);
             // setIsPlaying(false);
           });
-      }, delay * 1000); // Convert seconds to milliseconds
+      }, delay * 1000);
     };
 
     const stopAudio = () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-        if (timeoutRef.current) { // Clear timeout on stop
+        if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
       }
     };
 
     if (play) {
-      if (document.readyState === 'complete') {
-          playAudio();
+      if (document.readyState === "complete") {
+        playAudio();
       } else {
-        window.addEventListener('load', playAudio);
-        return () => window.removeEventListener('load', playAudio);
+        window.addEventListener("load", playAudio);
+        return () => window.removeEventListener("load", playAudio);
       }
     } else {
       stopAudio();
@@ -53,11 +53,11 @@ function AudioPlayer({ src, volume = 0.5, play, delay = 0 }) { // Add 'delay' pr
         audioRef.current.pause();
         audioRef.current = null;
       }
-       if (timeoutRef.current) {  // Clear timeout on unmount
-          clearTimeout(timeoutRef.current);
-        }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
-  }, [src, volume, play, delay]); // Add 'delay' to dependency array
+  }, [src, volume, play, delay]);
 
   return null;
 }

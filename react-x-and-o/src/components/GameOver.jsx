@@ -1,17 +1,15 @@
 import GameLogic from "../game-logic";
-import './GameOver.css'; 
+import "./GameOver.css";
 
 export default function GameOver({ gameState, onPlayAgain }) {
   if (gameState === null) {
-    return (<></>);
+    return <></>;
   }
 
   const playerInfo = GameLogic.getPlayerInfo(gameState);
 
   const message =
-    gameState === "draw"
-      ? "It's a draw!"
-      : `${playerInfo.name} wins!`;
+    gameState === "draw" ? "It's a draw!" : `${playerInfo.name} wins!`;
 
   return (
     <div id="game-over">
