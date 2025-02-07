@@ -9,7 +9,7 @@ import AudioPlayer from "./components/AudioPlayer";
 import gameLocalSong from "/game-song-1.mp3";
 import gameAISong from "/game-song-ai.mp3";
 import gameOnlineSong from "/game-song-online.mp3";
-import { playSoundEffect } from "./audio-utils";
+import { playSoundEffect, playRandomPlaymakerPhrase } from "./audio-utils";
 import TransitionOverlay from "./components/TransitionOverlay";
 import { performAITurn } from "./ai-logic";
 import ModeSelectionPrompt from "./components/ModeSelectionPrompt";
@@ -63,7 +63,6 @@ function App() {
   }, [gameBoard, activePlayer]); // Depend on BOTH gameBoard AND activePlayer
 
   useEffect(() => {
-    // This useEffect is ONLY for handling the AI's turn
     if (
       selectedMode === "AI" &&
       activePlayer === "0" &&
@@ -71,6 +70,7 @@ function App() {
       gameStarted
     ) {
       performAITurn(gameBoard, activePlayer, handlePlayerMove);
+      playRandomPlaymakerPhrase(0.5);
     }
   }, [activePlayer, gameBoard, selectedMode, isValidGameResult, gameStarted]);
 
@@ -127,7 +127,7 @@ function App() {
       setGameStarted(true);
       resetGame(true);
       setTransitionActive(false);
-    }, 2500);
+    }, 500);
   };
 
   return (

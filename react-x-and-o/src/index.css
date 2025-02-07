@@ -20,9 +20,34 @@ html {
 }
 
 body {
-  background: radial-gradient(ellipse farthest-corner at bottom left, #01a9f4, #8f30a0, #8f30a0, #01a9f4);
+  background: radial-gradient(ellipse farthest-corner at bottom left, #01a9f4, #8f30a0, #320c3d, #0d4d97);
+  background-size: 300% 300%;
+  animation: liquidBackground 10s linear infinite;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@keyframes liquidBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  25% {
+    background-position: 100% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  75% {
+    background-position: 0% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 header {
@@ -60,8 +85,6 @@ h1 {
   justify-content: center;
 }
 
-/* --- PLAYER STYLES START --- */
-
 #players {
   list-style: none;
   padding: 0;
@@ -75,15 +98,11 @@ h1 {
 
 @media (min-width: 769px) {
   #players {
-    /*  On desktop, keep as a single row */
     flex-direction: row;
-
   }
 
   #players li {
     width: auto;
-    /* Let items determine their own width */
-
   }
 
 }
@@ -104,7 +123,6 @@ h1 {
 }
 
 #players li:hover {
-  /* No hover effects */
   transform: none;
   box-shadow: none;
 }
@@ -128,15 +146,12 @@ h1 {
   background: rgba(1, 169, 244, 0.8);
   color: #fff;
   font-size: 0.7rem;
-  /* Smaller font */
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s;
   padding: 0.2rem 0.5rem;
-  /* Smaller padding */
   text-align: center;
   border-radius: 5px;
   margin-top: 0;
-  /* Remove top margin */
   font-weight: bold;
 }
 
@@ -152,47 +167,33 @@ h1 {
   font-weight: bold;
   display: flex;
   flex-direction: row;
-  /* Change to row */
   align-items: center;
-  /* Center vertically */
   width: 100%;
   gap: 0.5rem;
-  /* Add gap between elements */
 }
 
 .player-name {
   display: inline;
-  /* Display inline */
   width: auto;
-  /* Let content dictate width */
   font-size: 0.8rem;
-  /* Smaller font size */
   color: #fff;
   text-transform: uppercase;
   margin: 0;
-  /* No margins */
   padding: 0;
-  /* No padding */
   border-radius: 0;
-  /* Remove rounded corners */
   text-overflow: ellipsis;
   text-align: center;
   font-weight: bold;
   white-space: nowrap;
-  /* Prevent wrapping */
 
 }
 
 .player input {
   font: inherit;
   font-size: 0.7rem;
-  /* Smaller font size */
   width: 100%;
-  /* Full width within its container*/
   border: 1px solid #01a9f4;
-  /* Thinner border */
   padding: 0.2rem;
-  /* Smaller padding */
   animation: pulse-text 2s infinite;
   background-color: rgba(255, 255, 255, 0.2);
   color: #fff;
@@ -214,17 +215,12 @@ h1 {
 
 .player-score {
   display: inline-block;
-  /* Display inline */
   font-size: 1rem;
-  /* Same size as symbol */
   font-weight: bold;
   color: #fff;
-  /* White color */
   margin-right: 0.5rem;
-  /* Space before edit button */
 }
 
-/* --- PLAYER STYLES END --- */
 
 ol {
   list-style: none;
@@ -279,9 +275,9 @@ ol {
 }
 
 #game-board button:hover {
-  transform: scale(1.1);        /* Scale up slightly */
-  background-color: #29b6f6; /* Lighter blue on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  transform: scale(1.1);
+  background-color: #29b6f6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -350,7 +346,6 @@ ol {
   }
 }
 
-/* REMOVED PULSE ANIMATION*/
 @keyframes pulse {
   0% {
     border-color: rgba(1, 169, 244, 0.5);
@@ -368,7 +363,6 @@ ol {
   }
 }
 
-/* Fancy animation for showing the "Game Over" element */
 @keyframes pop-in {
   0% {
     transform: scale(0);
@@ -410,11 +404,11 @@ ol {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem; /* Space between selector and players */
+  margin-bottom: 1rem;
 }
 
 #game-mode-selector button {
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  background-color: rgba(255, 255, 255, 0.2);
   border: none;
   color: #fff;
   padding: 0.5rem 1rem;
@@ -426,6 +420,6 @@ ol {
 
 #game-mode-selector button.active,
 #game-mode-selector button:hover {
-  background-color: #01a9f4; /* Your accent color */
-  color: #fff; /* White text */
+  background-color: #01a9f4;
+  color: #fff;
 }
